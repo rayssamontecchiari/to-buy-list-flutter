@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-
-import 'homePage.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_list/context/context.dart';
+import 'package:todo_list/homePage.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,13 +12,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.amberAccent),
-        useMaterial3: true,
+    return ChangeNotifierProvider(
+      create: (_) => DataProvider(),
+      child: MaterialApp(
+        title: 'My list App',
+        theme: ThemeData(
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.amberAccent),
+          useMaterial3: true,
+        ),
+        home: HomePage(),
       ),
-      home: HomePage(),
     );
   }
 }

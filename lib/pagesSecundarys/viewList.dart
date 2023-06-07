@@ -1,29 +1,29 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todo_list/context/context.dart';
 
 class viewList extends StatefulWidget {
-  final List<Map<String, Object>> currentList;
-
-  viewList({Key? key, required this.currentList}) : super(key: key);
+  viewList({Key? key}) : super(key: key);
 
   @override
   _viewListState createState() => _viewListState();
 }
 
 class _viewListState extends State<viewList> {
-  final _userList = [
-    {"name": "banana", "quantity": 2, "checked": false},
-    {"name": "limao", "quantity": 1, "checked": true},
-    {"name": "pera", "quantity": 5, "checked": false}
-  ];
-
   @override
   Widget build(BuildContext context) {
+    final dataProvider = Provider.of<DataProvider>(context);
+    final _userList = dataProvider.lista.itens;
+
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Minha Lista"),
-        ),
-        body: SafeArea(
-          child: Column(children: [
+      appBar: AppBar(
+        title: Text("Minha Lista"),
+      ),
+      body: SafeArea(
+        child: Column(
+          children: [
             const Text(
               "Aqui está sua lista",
               textAlign: TextAlign.center,
@@ -34,20 +34,22 @@ class _viewListState extends State<viewList> {
             ),
             Column(
               children: _userList.map((i) {
-                String itemName = i["name"].toString();
-                String itemQuantity = i["quantity"].toString();
-                bool itemChecked = i["checked"] as bool;
+                String itemName = i.name;
+                String itemQuantity = i.quantity.toString();
+
                 return Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisSize: MainAxisSize.max,
                   children: [
                     Checkbox(
-                      value: itemChecked,
+                      value: i.checked,
                       onChanged: (bool? value) {
-                        setState(() {
-                          itemChecked = value!;
-                        });
+                        if (value != null) {
+                          setState(() {
+                            i.setChecked(value);
+                          });
+                        }
                       },
                     ),
                     Text(itemName),
@@ -56,8 +58,10 @@ class _viewListState extends State<viewList> {
                   ],
                 );
               }).toList(),
-            )
-          ]),
-        ));
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:todo_list/context/context.dart';
 
 class addItemsToList extends StatefulWidget {
-  final List<Map<String, Object>> currentList;
+  final userList currentList;
 
   addItemsToList({Key? key, required this.currentList}) : super(key: key);
 
@@ -28,13 +29,14 @@ class _addItemsToListState extends State<addItemsToList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Minha Lista"),
-        ),
-        body: SafeArea(
-          child: Padding(
-            padding: EdgeInsets.only(top: 50),
-            child: Column(children: [
+      appBar: AppBar(
+        title: Text("Minha Lista"),
+      ),
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.only(top: 50),
+          child: Column(
+            children: [
               const Text(
                 "Insira o nome do produto e a quantidade desejada",
                 textAlign: TextAlign.center,
@@ -86,34 +88,37 @@ class _addItemsToListState extends State<addItemsToList> {
                 ),
               ),
               InkWell(
-                  onTap: () => {
-                        setState(() {
-                          _newListItem = {
-                            "name": _newItemName,
-                            "quantity": _newItemQtd
-                          };
-                        }),
-                        print(_newListItem)
-                      },
-                  child: LayoutBuilder(builder: (context, constraints) {
-                    return Container(
-                        width: constraints.maxWidth,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          color: Colors.amber,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        margin:
-                            const EdgeInsets.only(top: 20, left: 15, right: 15),
-                        padding: const EdgeInsets.all(10),
-                        child: const Text(
-                          "Adicionar",
-                          style: TextStyle(color: Colors.white),
-                          textAlign: TextAlign.center,
-                        ));
-                  })),
-            ]),
+                onTap: () => {
+                  setState(() {
+                    _newListItem = {
+                      "name": _newItemName,
+                      "quantity": _newItemQtd
+                    };
+                  }),
+                  print(_newListItem)
+                },
+                child: LayoutBuilder(builder: (context, constraints) {
+                  return Container(
+                    width: constraints.maxWidth,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      color: Colors.amber,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    margin: const EdgeInsets.only(top: 20, left: 15, right: 15),
+                    padding: const EdgeInsets.all(10),
+                    child: const Text(
+                      "Adicionar",
+                      style: TextStyle(color: Colors.white),
+                      textAlign: TextAlign.center,
+                    ),
+                  );
+                }),
+              ),
+            ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
