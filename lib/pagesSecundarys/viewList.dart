@@ -27,14 +27,37 @@ class _viewListState extends State<viewList> {
       body: SafeArea(
         child: Column(
           children: [
-            Text(
-              title,
-              textAlign: TextAlign.center,
-              style: const TextStyle(
-                  color: Colors.amber,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Text(
+                title,
+                textAlign: TextAlign.start,
+                style: const TextStyle(
+                    color: Colors.amber,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20),
+              ),
             ),
+            if (_userList.length > 0)
+              InkWell(
+                highlightColor: Colors.red[400],
+                onTap: () {
+                  final dataProvider =
+                      Provider.of<DataProvider>(context, listen: false);
+
+                  dataProvider.removeAllItens();
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.red[400],
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  margin: const EdgeInsets.all(5),
+                  padding: const EdgeInsets.all(10),
+                  child: const Text("Limpar Listas",
+                      style: TextStyle(color: Colors.white)),
+                ),
+              ),
             Column(
               children: _userList.map((i) {
                 String itemName = i.name;

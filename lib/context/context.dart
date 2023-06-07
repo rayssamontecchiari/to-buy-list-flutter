@@ -31,11 +31,7 @@ class userList {
 }
 
 class DataProvider with ChangeNotifier {
-  userList _lista = userList([
-    Item('Item 1', 2, false),
-    Item('Item 2', 3, false),
-    Item('Item 3', 1, false),
-  ]);
+  userList _lista = userList([]);
 
   userList get lista => _lista;
 
@@ -46,6 +42,11 @@ class DataProvider with ChangeNotifier {
 
   void removeItem(String itemId) {
     _lista.itens.removeWhere((item) => item._id == itemId);
+    notifyListeners();
+  }
+
+  void removeAllItens() {
+    _lista.itens.clear();
     notifyListeners();
   }
 }
