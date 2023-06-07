@@ -14,10 +14,6 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    final dataProvider = Provider.of<DataProvider>(context);
-
-    final userList _userList = dataProvider.lista;
-
     return Scaffold(
       appBar: AppBar(
         title: Text("Minha Lista"),
@@ -45,7 +41,7 @@ class _HomePageState extends State<HomePage> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (_) => addItemsToList(currentList: _userList),
+                        builder: (_) => addItemsToList(),
                       ),
                     )
                   },

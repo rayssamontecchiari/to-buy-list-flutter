@@ -17,6 +17,9 @@ class _viewListState extends State<viewList> {
     final dataProvider = Provider.of<DataProvider>(context);
     final _userList = dataProvider.lista.itens;
 
+    String title =
+        _userList.length > 0 ? "Aqui está sua lista" : "Sua lista esta vazia";
+
     return Scaffold(
       appBar: AppBar(
         title: Text("Minha Lista"),
@@ -24,10 +27,10 @@ class _viewListState extends State<viewList> {
       body: SafeArea(
         child: Column(
           children: [
-            const Text(
-              "Aqui está sua lista",
+            Text(
+              title,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                   color: Colors.amber,
                   fontWeight: FontWeight.bold,
                   fontSize: 20),
@@ -54,7 +57,16 @@ class _viewListState extends State<viewList> {
                     ),
                     Text(itemName),
                     Text("  --  "),
-                    Text(itemQuantity)
+                    Text(itemQuantity),
+                    IconButton(
+                      icon: Icon(Icons.close),
+                      onPressed: () {
+                        final dataProvider =
+                            Provider.of<DataProvider>(context, listen: false);
+
+                        dataProvider.removeItem(i.id);
+                      },
+                    )
                   ],
                 );
               }).toList(),

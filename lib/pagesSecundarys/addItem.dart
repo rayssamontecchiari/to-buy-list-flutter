@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:todo_list/context/context.dart';
+import 'package:todo_list/pagesSecundarys/viewList.dart';
 
 class addItemsToList extends StatefulWidget {
-  final userList currentList;
-
-  addItemsToList({Key? key, required this.currentList}) : super(key: key);
+  addItemsToList({Key? key}) : super(key: key);
 
   @override
   _addItemsToListState createState() => _addItemsToListState();
@@ -22,9 +22,7 @@ class _addItemsToListState extends State<addItemsToList> {
   }
 
   String _newItemName = '';
-  String _newItemQtd = '';
-
-  Object _newListItem = {"name": '', "quantity": ''};
+  int _newItemQtd = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -79,7 +77,8 @@ class _addItemsToListState extends State<addItemsToList> {
                         ),
                         onChanged: (value) {
                           setState(() {
-                            _newItemQtd = value;
+                            _newItemQtd =
+                                int.parse(value) > 0 ? int.parse(value) : 0;
                           });
                         },
                       ),
@@ -87,34 +86,69 @@ class _addItemsToListState extends State<addItemsToList> {
                   ],
                 ),
               ),
+              Consumer<DataProvider>(builder: (context, dataProvider, _) {
+                return InkWell(
+                  onTap: () => {
+                    setState(() {
+                      final dataProvider =
+                          Provider.of<DataProvider>(context, listen: false);
+                      Item _newListItem =
+                          Item(_newItemName, _newItemQtd, false);
+
+                      dataProvider.addItem(_newListItem);
+                    }),
+                  },
+                  child: LayoutBuilder(builder: (context, constraints) {
+                    return Container(
+                      width: constraints.maxWidth,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: Colors.amber,
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      margin:
+                          const EdgeInsets.only(top: 20, left: 15, right: 15),
+                      padding: const EdgeInsets.all(10),
+                      child: const Text(
+                        "Adicionar",
+                        style: TextStyle(color: Colors.white),
+                        textAlign: TextAlign.center,
+                      ),
+                    );
+                  }),
+                );
+              }),
               InkWell(
                 onTap: () => {
-                  setState(() {
-                    _newListItem = {
-                      "name": _newItemName,
-                      "quantity": _newItemQtd
-                    };
-                  }),
-                  print(_newListItem)
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => viewList(),
+                    ),
+                  )
                 },
                 child: LayoutBuilder(builder: (context, constraints) {
                   return Container(
                     width: constraints.maxWidth,
                     height: 50,
                     decoration: BoxDecoration(
-                      color: Colors.amber,
-                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(30),
+                      border: Border.all(
+                        color: Colors.amber,
+                        width: 2,
+                      ),
                     ),
                     margin: const EdgeInsets.only(top: 20, left: 15, right: 15),
                     padding: const EdgeInsets.all(10),
                     child: const Text(
-                      "Adicionar",
-                      style: TextStyle(color: Colors.white),
+                      "Ver lista",
+                      style: TextStyle(color: Colors.amber),
                       textAlign: TextAlign.center,
                     ),
                   );
                 }),
-              ),
+              )
             ],
           ),
         ),
