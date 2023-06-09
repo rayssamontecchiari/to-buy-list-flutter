@@ -92,11 +92,37 @@ class _addItemsToListState extends State<addItemsToList> {
                     setState(() {
                       final dataProvider =
                           Provider.of<DataProvider>(context, listen: false);
-                      Item _newListItem =
-                          Item(_newItemName, _newItemQtd, false);
 
-                      dataProvider.addItem(_newListItem);
+                      if (_newItemName != '' || _newItemQtd != 0) {
+                        Item _newListItem =
+                            Item(_newItemName, _newItemQtd, false);
+
+                        dataProvider.addItem(_newListItem);
+                      } else {
+                        showDialog(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return AlertDialog(
+                                title: Text('Campo vazio'),
+                                content: Text(
+                                    'O campo está vazio. Por favor, preencha-o.'),
+                                actions: [
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.of(context).pop();
+                                    },
+                                    child: Text('OK'),
+                                  ),
+                                ],
+                              );
+                            });
+                      }
+
+                      _newItemName = "";
+                      _newItemQtd = 0;
                     }),
+                    _controllerInputName.clear(),
+                    _controllerInputQuantity.clear(),
                   },
                   child: LayoutBuilder(builder: (context, constraints) {
                     return Container(

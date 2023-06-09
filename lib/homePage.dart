@@ -23,13 +23,16 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const Text(
-              "Selecione o que deseja fazer com sua lista",
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                  color: Colors.amber,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 20),
+            const Padding(
+              padding: EdgeInsets.all(50.0),
+              child: Text(
+                "Selecione o que deseja fazer com sua lista",
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    color: Colors.amber,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20),
+              ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,

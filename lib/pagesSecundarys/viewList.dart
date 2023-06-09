@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_list/context/context.dart';
+import 'package:todo_list/pagesSecundarys/addItem.dart';
 
 class viewList extends StatefulWidget {
   viewList({Key? key}) : super(key: key);
@@ -38,61 +39,83 @@ class _viewListState extends State<viewList> {
                     fontSize: 20),
               ),
             ),
-            if (_userList.length > 0)
-              InkWell(
-                highlightColor: Colors.red[400],
-                onTap: () {
-                  final dataProvider =
-                      Provider.of<DataProvider>(context, listen: false);
-
-                  dataProvider.removeAllItens();
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.red[400],
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  margin: const EdgeInsets.all(5),
-                  padding: const EdgeInsets.all(10),
-                  child: const Text("Limpar Listas",
-                      style: TextStyle(color: Colors.white)),
-                ),
-              ),
-            Column(
-              children: _userList.map((i) {
-                String itemName = i.name;
-                String itemQuantity = i.quantity.toString();
-
-                return Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisSize: MainAxisSize.max,
-                  children: [
-                    Checkbox(
-                      value: i.checked,
-                      onChanged: (bool? value) {
-                        if (value != null) {
-                          setState(() {
-                            i.setChecked(value);
-                          });
-                        }
-                      },
-                    ),
-                    Text(itemName),
-                    Text("  --  "),
-                    Text(itemQuantity),
-                    IconButton(
-                      icon: Icon(Icons.close),
-                      onPressed: () {
-                        final dataProvider =
-                            Provider.of<DataProvider>(context, listen: false);
-
-                        dataProvider.removeItem(i.id);
-                      },
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                InkWell(
+                  highlightColor: Colors.amber,
+                  onTap: () => {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => addItemsToList(),
+                      ),
                     )
-                  ],
-                );
-              }).toList(),
+                  },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: Colors.amber,
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    margin: const EdgeInsets.all(5),
+                    padding: const EdgeInsets.all(10),
+                    child: const Text("Adicionar Itens",
+                        style: TextStyle(color: Colors.white)),
+                  ),
+                ),
+                if (_userList.length > 0)
+                  InkWell(
+                    highlightColor: Colors.red[400],
+                    onTap: () {
+                      final dataProvider =
+                          Provider.of<DataProvider>(context, listen: false);
+
+                      dataProvider.removeAllItens();
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.red[400],
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      margin: const EdgeInsets.all(5),
+                      padding: const EdgeInsets.all(10),
+                      child: const Text("Limpar Listas",
+                          style: TextStyle(color: Colors.white)),
+                    ),
+                  ),
+              ],
+            ),
+            Expanded(
+              child: ListView.builder(
+                padding: EdgeInsets.only(top: 20),
+                shrinkWrap: true,
+                itemCount: _userList.length,
+                itemBuilder: (BuildContext context, int index) {
+                  var item = _userList[index];
+                  return ListTile(
+                      leading: Checkbox(
+                        value: item.checked,
+                        onChanged: (bool? value) {
+                          if (value != null) {
+                            setState(() {
+                              item.setChecked(value);
+                            });
+                          }
+                        },
+                      ),
+                      title: Text(item.name),
+                      subtitle: Text('Quantidade: ${item.quantity}'),
+                      trailing: IconButton(
+                        icon: Icon(Icons.close),
+                        onPressed: () {
+                          final dataProvider =
+                              Provider.of<DataProvider>(context, listen: false);
+
+                          dataProvider.removeItem(item.id);
+                        },
+                      ));
+                },
+              ),
             ),
           ],
         ),
