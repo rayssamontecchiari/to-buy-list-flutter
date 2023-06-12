@@ -93,7 +93,7 @@ class _addItemsToListState extends State<addItemsToList> {
                       final dataProvider =
                           Provider.of<DataProvider>(context, listen: false);
 
-                      if (_newItemName != '' || _newItemQtd != 0) {
+                      if (_newItemName != '' && _newItemQtd != 0) {
                         Item _newListItem =
                             Item(_newItemName, _newItemQtd, false);
 

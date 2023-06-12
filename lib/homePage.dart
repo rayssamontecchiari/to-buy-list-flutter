@@ -39,7 +39,6 @@ class _HomePageState extends State<HomePage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 InkWell(
-                  highlightColor: Colors.amber,
                   onTap: () => {
                     Navigator.push(
                       context,
